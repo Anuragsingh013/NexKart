@@ -11,6 +11,7 @@ import ProfileScreen from '../screens/Profile';
 import SplashScreen from '../components/SplashScreen';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import DynamicTable from '../screens/Profile/DynamicTable';
 
 const RootStack = createStackNavigator();
 
@@ -45,6 +46,7 @@ const CartStackScreen = () => (
 const ProfileStackScreen = () => (
     <ProfileStack.Navigator>
         <ProfileStack.Screen name="Profile" component={ProfileScreen} />
+        <ProfileStack.Screen name="dynamicTable" component={DynamicTable} options={{ title: 'DynamicTable', headerShown: false }} />
     </ProfileStack.Navigator>
 );
 
@@ -77,9 +79,9 @@ const MainAppTabs = () => (
         })}
     >
         <Tab.Screen name="HomeTab" component={HomeStackScreen} options={{ title: 'Home', headerShown: false }} />
-        <Tab.Screen name="ShopTab" component={ShopStackScreen} options={{ title: 'Shop' , headerShown: false }} />
-        <Tab.Screen name="CartTab" component={CartStackScreen} options={{ title: 'Cart' , headerShown: false }} />
-        <Tab.Screen name="ProfileTab" component={ProfileStackScreen} options={{ title: 'Profile' , headerShown: false }} />
+        <Tab.Screen name="ShopTab" component={ShopStackScreen} options={{ title: 'Shop', headerShown: false }} />
+        <Tab.Screen name="CartTab" component={CartStackScreen} options={{ title: 'Cart', headerShown: false }} />
+        <Tab.Screen name="ProfileTab" component={ProfileStackScreen} options={{ title: 'Profile', headerShown: false }} />
     </Tab.Navigator>
 );
 

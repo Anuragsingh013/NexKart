@@ -1,6 +1,6 @@
 // screens/Home/HomeScreen.tsx
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, SafeAreaView, ScrollView, TextInput } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, SafeAreaView, ScrollView, TextInput, AppState } from 'react-native';
 import BannerSlider from '../../components/BannerSlider';
 import { CATEGORIES, PRODUCTS, styles } from '../../constants/products';
 import { showSuccessMessage, showSuccessMessageNew } from '../../utils/helper';
@@ -8,16 +8,67 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Images from '../../assets/images';
 import Header from '../../components/Header';
 import { dynamicSize } from '../../utils/responsive';
+import { NativeModules } from 'react-native';
 
+
+const { LauncherIconModule } = NativeModules;
+console.log('LauncherIconModule', LauncherIconModule);
 
 const HomeScreen = ({ navigation }: any) => {
+
+
+
+
+  const changeIcon = async (iconName: any) => {
+    try {
+      const result = await LauncherIconModule.changeIcon(iconName);
+      console.log(result);
+    } catch (e) {
+      console.log('Icon change failed', e);
+    }
+  };
+
+
+
   const [featuredProducts, setFeaturedProducts] = useState(PRODUCTS);
   const [activeCategory, setActiveCategory] = useState(PRODUCTS[0].category)
-  const filteredProducts = PRODUCTS.filter((item) => item.category == activeCategory)
+  const filteredProducts = PRODUCTS.filter((item) => item.category == activeCategory);
+
+  const iconToggleRef = useRef(true);
+
+  useEffect(() => {
+    const sub = AppState.addEventListener('change', (nextState) => {
+        console.log('App state is now', nextState);
+      if (nextState === 'background') {
+        const shouldUsePremium = iconToggleRef.current;
+
+        if (shouldUsePremium) {
+          changeIcon('premiumIcon');
+        } else {
+          changeIcon('MainActivity');
+        }
+
+        // Toggle for next time
+        iconToggleRef.current = !iconToggleRef.current;
+      }
+
+      if (nextState === 'active') {
+        // do something on resume if needed
+      }
+    });
+
+    return () => sub.remove();
+  }, []);
+
+
+
   const renderProductItem = ({ item }: any) => (
     <TouchableOpacity
       style={styles.productCard}
-      onPress={() => navigation.navigate('ProductDetails', { product: item })}
+      onPress={
+        () => {
+          // navigation.navigate('ProductDetails', { product: item })}
+        }}
     >
       <Image source={{ uri: item.image }} style={styles.productImage} />
       <Text style={styles.productName}>{item.name}</Text>
@@ -72,7 +123,10 @@ const HomeScreen = ({ navigation }: any) => {
             data={CATEGORIES}
             renderItem={({ item, index }) => {
               return (
-                <TouchableOpacity style={[styles.categoryItem, activeCategory == item && { backgroundColor: "#ff6347" }]} onPress={() => setActiveCategory(item)} >
+                <TouchableOpacity style={[styles.categoryItem, activeCategory == item && { backgroundColor: "#ff6347" }]} onPress={() => {
+                  setActiveCategory(item);
+                  // changeIcon("MainActivity");
+                }} >
                   <Text style={[styles.categoryText, activeCategory == item && { color: "#fff" }]}>{item}</Text>
                 </TouchableOpacity>
               )
