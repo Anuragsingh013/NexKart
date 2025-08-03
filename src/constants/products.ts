@@ -343,8 +343,8 @@ export const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   profileAvatar: {
-    width: 100,
-    height: 100,
+    width: dynamicSize(120),
+    height: dynamicSize(120),
     borderRadius: 50,
     backgroundColor: '#ff6347',
     justifyContent: 'center',

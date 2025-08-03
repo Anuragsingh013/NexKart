@@ -4,8 +4,10 @@ import { View, TextInput, StyleSheet, Image, TouchableOpacity } from 'react-nati
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Images from '../assets/images'; // Your Myntra logo here
 import { dynamicSize } from '../utils/responsive';
+import { useNavigation } from '@react-navigation/native';
 
 const Header = () => {
+    const navigation = useNavigation();
     return (
         <View style={styles.headerContainer}>
             {/* Top Row */}
@@ -17,13 +19,32 @@ const Header = () => {
                 </TouchableOpacity>
                 {/* <Image source={Images.splashIcon} style={styles.logo} resizeMode="contain" /> */}
                 <View style={styles.icons}>
-                    <TouchableOpacity style={styles.icon}>
+                    <TouchableOpacity style={styles.icon} onPress={() => {
+                        navigation.navigate('ProfileTab', {
+                            screen: 'WishlistScreen',
+                            params: {}
+                        });
+                    }}  >
                         <Ionicons name="heart-outline" size={22} color="#000" />
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.icon}>
+                    <TouchableOpacity style={styles.icon} onPress={() => {
+                        // navigation.navigate("Profile")
+                        navigation.navigate('ProfileTab', {
+                            screen: 'Profile',
+                            params: {}
+                        });
+                    }}>
                         <Ionicons name="person-outline" size={22} color="#000" />
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.icon}>
+                    <TouchableOpacity style={styles.icon}
+                        onPress={() => {
+                            // navigation.navigate("Profile")
+                            navigation.navigate('ProfileTab', {
+                                screen: 'ordersScreen',
+                                params: {}
+                            });
+                        }}
+                    >
                         <Ionicons name="bag-outline" size={22} color="#000" />
                     </TouchableOpacity>
                 </View>

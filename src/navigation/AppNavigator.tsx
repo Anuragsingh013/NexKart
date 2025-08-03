@@ -12,6 +12,9 @@ import SplashScreen from '../components/SplashScreen';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import DynamicTable from '../screens/Profile/DynamicTable';
+import { Animated } from 'react-native';
+import WishlistScreen from '../screens/Profile/Whislist/WishlistScreen';
+import ordersScreen from '../screens/Profile/orders/ordersScreen';
 
 const RootStack = createStackNavigator();
 
@@ -21,6 +24,9 @@ const HomeStack = createStackNavigator();
 const ShopStack = createStackNavigator();
 const CartStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
+
+
+export const tabBarTranslateY = new Animated.Value(0);
 
 const HomeStackScreen = () => (
     <HomeStack.Navigator>
@@ -45,8 +51,10 @@ const CartStackScreen = () => (
 
 const ProfileStackScreen = () => (
     <ProfileStack.Navigator>
-        <ProfileStack.Screen name="Profile" component={ProfileScreen} />
+        <ProfileStack.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
         <ProfileStack.Screen name="dynamicTable" component={DynamicTable} options={{ title: 'DynamicTable', headerShown: false }} />
+        <ProfileStack.Screen name="WishlistScreen" component={WishlistScreen} options={{ title: 'Wishlists', headerShown: false }} />
+        <ProfileStack.Screen name="ordersScreen" component={ordersScreen} options={{ title: 'Wishlists', headerShown: false }} />
     </ProfileStack.Navigator>
 );
 
@@ -76,6 +84,13 @@ const MainAppTabs = () => (
             tabBarActiveTintColor: '#ff6347',
             tabBarInactiveTintColor: 'gray',
             // headerShown: false,
+            tabBarStyle: {
+                transform: [
+                    {
+                        translateY: tabBarTranslateY
+                    }
+                ]
+            }
         })}
     >
         <Tab.Screen name="HomeTab" component={HomeStackScreen} options={{ title: 'Home', headerShown: false }} />
