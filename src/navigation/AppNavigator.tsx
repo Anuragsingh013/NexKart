@@ -81,15 +81,16 @@ const MainAppTabs = () => (
                 return iconName ? <Ionicons name={iconName} size={size} color={color} /> : null;
 
             },
-            tabBarActiveTintColor: '#ff6347',
+            // tabBarActiveTintColor: '#ff6347',
+            tabBarActiveTintColor: '#667eea',
             tabBarInactiveTintColor: 'gray',
             // headerShown: false,
             tabBarStyle: {
-                transform: [
-                    {
-                        translateY: tabBarTranslateY
-                    }
-                ]
+                // transform: [
+                //     {
+                //         translateY: tabBarTranslateY
+                //     }
+                // ]
             }
         })}
     >
