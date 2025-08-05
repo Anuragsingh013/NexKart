@@ -245,14 +245,26 @@ const HomeScreen = ({ navigation }: any) => {
           <Text style={styles.quickActionText}>Wishlist</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.quickActionItem} activeOpacity={0.8}>
+        <TouchableOpacity style={styles.quickActionItem} activeOpacity={0.8}
+          onPress={() => {
+            // navigation.navigate("Profile")
+            navigation.navigate('Offers', {
+            });
+          }}
+        >
           <View style={styles.quickActionIcon}>
             <Icon name="gift" size={24} color="#f39c12" />
           </View>
           <Text style={styles.quickActionText}>Offers</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.quickActionItem} activeOpacity={0.8}>
+        <TouchableOpacity style={styles.quickActionItem} activeOpacity={0.8}
+         onPress={() => {
+            // navigation.navigate("Profile")
+            navigation.navigate('SupportScreen', {
+            });
+          }}
+        >
           <View style={styles.quickActionIcon}>
             <Icon name="headphones" size={24} color="#9b59b6" />
           </View>
@@ -658,8 +670,8 @@ const styles = StyleSheet.create({
   categoryItem: {
     marginRight: dynamicSize(12),
     borderRadius: dynamicSize(24),
-    borderWidth:dynamicSize(1),
-    borderColor:"#E0E0E0",
+    borderWidth: dynamicSize(1),
+    borderColor: "#E0E0E0",
     overflow: 'hidden',
   },
   activeCategoryItem: {

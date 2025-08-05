@@ -15,6 +15,10 @@ import DynamicTable from '../screens/Profile/DynamicTable';
 import { Animated } from 'react-native';
 import WishlistScreen from '../screens/Profile/Whislist/WishlistScreen';
 import ordersScreen from '../screens/Profile/orders/ordersScreen';
+import Offers from '../screens/Home/offers/Offers';
+import SupportScreen from '../screens/Home/Support/SupportScreen';
+import LoginScreen from '../screens/Auth/LoginScreen/LoginScreen';
+import { useSelector } from 'react-redux';
 
 const RootStack = createStackNavigator();
 
@@ -24,14 +28,28 @@ const HomeStack = createStackNavigator();
 const ShopStack = createStackNavigator();
 const CartStack = createStackNavigator();
 const ProfileStack = createStackNavigator();
-
+const Stack = createStackNavigator();
 
 export const tabBarTranslateY = new Animated.Value(0);
+
+
+
+const AuthStack = () => {
+    return (
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Login" component={LoginScreen} />
+            {/* <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} /> */}
+        </Stack.Navigator>
+    );
+};
+
 
 const HomeStackScreen = () => (
     <HomeStack.Navigator>
         <HomeStack.Screen name="Home" component={HomeScreen} options={{ title: 'Shop App', headerShown: false }} />
         <HomeStack.Screen name="ProductDetails" component={ProductDetailsScreen} options={{ title: 'Product Details' }} />
+        <HomeStack.Screen name="Offers" component={Offers} options={{ title: 'Product Details', headerShown: false }} />
+        <HomeStack.Screen name="SupportScreen" component={SupportScreen} options={{ title: 'Product Details', headerShown: false }} />
     </HomeStack.Navigator>
 );
 
@@ -105,6 +123,9 @@ const MainAppTabs = () => (
 const AppNavigator = () => {
     const [isSplashVisible, setIsSplashVisible] = useState(true);
 
+    const { isLoggedIn, loading } = useSelector((state: any) => state.auth);
+
+
     useEffect(() => {
         const timer = setTimeout(() => {
             setIsSplashVisible(false);
@@ -118,8 +139,10 @@ const AppNavigator = () => {
             <RootStack.Navigator screenOptions={{ headerShown: false }}>
                 {isSplashVisible ? (
                     <RootStack.Screen name="Splash" component={SplashScreen} />
-                ) : (
+                ) : isLoggedIn ? (
                     <RootStack.Screen name="MainApp" component={MainAppTabs} />
+                ) : (
+                    <RootStack.Screen name="AuthStack" component={AuthStack} />
                 )}
             </RootStack.Navigator>
         </NavigationContainer>

@@ -18,17 +18,20 @@ import Images from '../../assets/images';
 import { dynamicSize, getFontSize } from '../../utils/responsive';
 import LinearGradient from 'react-native-linear-gradient';
 import { FontFamily } from '../../assets/fonts';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../store/slices/authslice';
+import { showSuccessMessage } from '../../utils/helper';
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
-
+  const dispatch = useDispatch();
   const menuItems = [
     {
       id: 'orders',
       title: 'My Orders',
       icon: 'shopping-bag',
       // onPress: () => navigation.navigate("dynamicTable"),
-       onPress: () => navigation.navigate("ordersScreen"),
+      onPress: () => navigation.navigate("ordersScreen"),
       badge: '12'
     },
     {
@@ -67,7 +70,20 @@ const ProfileScreen = () => {
       'Are you sure you want to logout?',
       [
         { text: 'Cancel', style: 'cancel' },
-        { text: 'Logout', style: 'destructive', onPress: () => console.log('Logout') }
+        {
+          text: 'Logout', style: 'destructive',
+          onPress: () => {
+            // Dispatch logout action
+            dispatch(logout());
+            showSuccessMessage("Logout Successfully")
+            // Optional: Clear other app data
+            // clearCartData();
+            // clearWishlistData();
+
+            // Optional: Show success message
+            // Alert.alert('Success', 'Logged out successfully');
+          }
+        }
       ]
     );
   };
